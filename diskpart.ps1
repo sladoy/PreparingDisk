@@ -1,29 +1,12 @@
-Function Prepare_Disk
-{
-                # Clean Disk
-                Get-Disk $drive | Clear-Disk -RemoveData -Confirm
-
-                # Create New Partition
-                New-Partition -DiskNumber $drive -UseMaximumSize -IsActive -DriveLetter 'Z' | Format-Volume -FileSystem NTFS -NewFileSystemLabel SCCM -Force
-
-}
-
-Function Copy_Files
-{
-
-        Copy-Item $source -Destination $destination -Recurse
-
-
-}
+Import-Module .\Powershell\PreparingDisk\Functions\functions.ps1
 #---------------Variables---------------------------------------------------
 
 # From where you should take the files. In the end it should take from the server
 $source = "C:\Users\dawid\Desktop\Test\*"
 
-$destination = 'Z:'
+$IniFile = .\Powershell\PreparingDisk\settings.ini
 
-# Max_Size is 128 GB converted to Bytes
-$Max_Size = 137438953472
+$IniContent = Get-IniValues -filePath $IniFile
 #---------------------------------------------------------------------------
 Write-Output "Welcome to TOTS Program made in Power(S)Hell
         It will prepare quickly pendrive with current SCCM Package"
